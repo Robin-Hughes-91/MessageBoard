@@ -1,7 +1,7 @@
 <template>
   <div>
 
-  <h1> Full Stack Message Board </h1>
+  <h1> This is the Home </h1>
 
   </div>
 </template>
