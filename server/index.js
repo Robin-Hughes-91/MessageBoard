@@ -1,0 +1,37 @@
+const express = require('express');
+const morgan = require('morgan');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+
+//create an express app
+
+const app = express();
+
+ // add middleware to add functionality
+ //tiny is used to add the log to the app
+app.use(morgan('tiny'));
+
+
+app.use(cors());
+
+//changes data into json object to insert into db
+app.use(bodyParser.json());
+
+ //add get route to make sure server is working
+ //when a get request comes into the server with the url '/' this will run
+ //taking the request and giving the response
+
+app.get('/', (req, res) => {
+  res.json({
+    message: 'full stack messageboard!'
+  });
+});
+
+ // create the port for the server to listen on but not hardcoded
+ // in case we want to put it on heroku
+const port = process.env.PORT || 1234;
+
+ //listen on the port
+app.listen(port, () => {
+  console.log(`listening on ${port}`)
+})

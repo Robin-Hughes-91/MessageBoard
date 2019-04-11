@@ -1,14 +1,15 @@
 # Full Stack Message Board
 
 
-* - [ ] Create Server Folder
-  * - [ ]Init npm (npm init -y)
-  * - [ ]Add these (npm install express morgan cors body-parser)
+* - [x] Create Server Folder
+  * - [x]Init npm (npm init -y)
+  * - [x]Add these (npm install express morgan cors body-parser)
         express is used to create the backend API, morgan logs incoming requests, cors will let the client talk to the front-end, body-parser will allow the backend to read and understand the data sent from the front end.
-  * - [ ]Create Hello World Route
-* - [ ]Create Client Folder
-  * - [ ]vue create client
-  * - [ ]Add bootswatch CSS
+  * - [x]Create Hello World Route
+  * - [x] install nodemon (npm install --save-dev nodemon)
+* - [x]Create Client Folder
+  * - [x]vue create client (npx @vue/cli create client)
+  * - [x]Add bootswatch/bootstrap CSS
   * - [ ]Homepage Layout
 * - [ ]Add DB to server
   * - [ ]Add monk joi
