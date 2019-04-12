@@ -10,7 +10,7 @@
 * - [x]Create Client Folder
   * - [x]vue create client (npx @vue/cli create client)
   * - [x]Add bootswatch/bootstrap CSS
-  * - [ ]Homepage Layout
+  * - [x]Homepage Layout
 * - [ ]Add DB to server
   * - [ ]Add monk joi
   * - [ ]Create message model
