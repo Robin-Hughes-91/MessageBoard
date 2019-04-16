@@ -2,16 +2,15 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const messages = require('./db/MessageModel');
 
-//create an express app
+//----------------create an express app---------------------------------------
 
 const app = express();
 
  // add middleware to add functionality
  //tiny is used to add the log to the app
 app.use(morgan('tiny'));
-
-
 app.use(cors());
 
 //changes data into json object to insert into db
@@ -20,10 +19,28 @@ app.use(bodyParser.json());
  //add get route to make sure server is working
  //when a get request comes into the server with the url '/' this will run
  //taking the request and giving the response
-
 app.get('/', (req, res) => {
   res.json({
     message: 'full stack messageboard!'
+  });
+});
+
+//add get route for messages
+
+app.get('/messages', (req, res) => {
+  messages.getAll().then((messages) => {
+    res.json(messages);
+  });
+});
+
+//add post route for message
+app.post('/messages', (req, res) => {
+  console.log('request log', req.body);
+  messages.create(req.body).then((message) => {
+    res.json(message);
+  }).catch((error) => {
+    res.status(500);
+    res.json(error);
   });
 });
 
