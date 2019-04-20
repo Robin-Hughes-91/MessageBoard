@@ -7,11 +7,12 @@ const schema = Joi.object().keys({
   username: Joi.string().alphanum().min(3).max(30).required(),
   subject: Joi.string().required(),
   message: Joi.string().max(500).required(),
-  imageURL: Joi.string().uri({
+  imageURL: Joi.string().allow(null, '').uri({
     scheme: [
       /https?/
     ]
-  })
+  }),
+  imageFile: Joi.string()
 });
 
 

@@ -14,7 +14,10 @@ app.use(morgan('tiny'));
 app.use(cors());
 
 //changes data into json object to insert into db
-app.use(bodyParser.json());
+app.use(bodyParser.json({
+    extended: true,
+    limit: '20mb'
+}));
 
  //add get route to make sure server is working
  //when a get request comes into the server with the url '/' this will run
@@ -33,7 +36,7 @@ app.get('/messages', (req, res) => {
   });
 });
 
-//add post route for message
+//add post route for message and catch for errors
 app.post('/messages', (req, res) => {
   console.log('request log', req.body);
   messages.create(req.body).then((message) => {
