@@ -4,9 +4,16 @@
 
 <template>
   <div>
-    <form @submit.prevent="addMessage">
+    <button  @click="showMessageForm = !showMessageForm" type="button" class="btn btn-info mt-3 mb-3">Message Box Toggle</button>
+    <form v-if="showMessageForm" @submit.prevent="addMessage" class=" mb-3">
       <fieldset>
         <legend>Legend</legend>
+        <div class="form-group row">
+          <label for="staticEmail" class="col-sm-2 col-form-label">Email</label>
+          <div class="col-sm-10">
+            <input type="text" readonly="" class="form-control-plaintext" id="staticEmail" value="email@example.com">
+          </div>
+        </div>
         <div class="form-group">
           <label for="username">User Name</label>
           <input v-model="message.username" type="username" class="form-control" id="username" aria-describedby="usernameHelp" placeholder="Enter username" required>
@@ -32,7 +39,7 @@
         <button type="submit" class="btn btn-primary">Submit</button>
       </fieldset>
     </form>
-    <div class="list-unstyled" v-for ="message in messages" :key="message._id">
+    <div class="list-unstyled" v-for ="message in reversedMessages" :key="message._id">
       <li class="media" >
         <img v-if="message.imageURL"  class="mr-3" :src="message.imageURL" onerror="this.onerror=null;this.src='https://media.giphy.com/media/mq5y2jHRCAqMo/giphy.gif';" :alt="message.imageFile">
         <img v-else="message.imageFile"  class="mr-3" :src="message.imageFile" onerror="this.onerror=null;this.src='https://media.giphy.com/media/mq5y2jHRCAqMo/giphy.gif';" >
@@ -63,18 +70,25 @@ export default {
   data: () => ({
 
     messages: [],
-    componentKey: 0,
+    showMessageForm: false,
     message: {
       username: 'Anonymous',
       subject: '',
       message: '',
       imageURL: '',
-      imageFile:null,
+      imageFile: null,
     }
   }),
+  computed: {
+    reversedMessages() {
+      console.log("reverse",this.messages.slice().reverse());
+      return this.messages.slice().reverse();
+    }
+  },
   mounted() {
     fetch(API_URL).then(response => response.json()).then(result => {
       this.messages = result;
+      console.log(this.messages);
     });
   },
 
@@ -89,16 +103,22 @@ export default {
       };
     },
     addMessage() {
+      console.log("form content in method",this.message);
+      console.log("file content in method", JSON.stringify(this.message.imageFile));
+      console.log(this.message);
+
+
+      //we make a post request to url and body is the form content and contenttype is json so it gets parsed
+
       fetch(API_URL, {
         method: 'POST',
         body: JSON.stringify(this.message),
         headers: {
           'content-type': 'application/json'
         }
-      })
-    },
-    forceRerender() {
-      this.componentKey += 1;
+      }).then(response => response.json()).then(result => {
+        this.messages.push(result);
+      });
     }
   }
 };

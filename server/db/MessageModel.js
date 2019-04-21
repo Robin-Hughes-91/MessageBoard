@@ -12,7 +12,7 @@ const schema = Joi.object().keys({
       /https?/
     ]
   }),
-  imageFile: Joi.string()
+  imageFile: Joi.string().allow(null, '')
 });
 
 
