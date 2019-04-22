@@ -4,7 +4,7 @@
 
 <template>
   <div>
-    <button  @click=" getGifUrl(), showMessageForm = !showMessageForm" type="button" class="btn btn-info mt-3 mb-3">Message Box Toggle</button>
+    <button  @click=" getGifUrl(), showMessageForm = !showMessageForm" type="button" class="btn btn-info mt-3 mb-3" id="showMessageButton">Message Box Toggle</button>
     <form v-if="showMessageForm" @submit.prevent="addMessage" class=" mb-3">
       <fieldset>
         <div class="form-group row">
@@ -26,7 +26,7 @@
         </div>
         <div class="form-group">
           <label for="imageURL">Image/GIF URL</label>
-          <input v-model="message.imageURL" type="url" class="form-control" id="imageURL" :placeholder="clickedGifUrl" >
+          <input v-model="message.imageURL" type="text" class="form-control" id="imageURL" value=message.imageURL >
         </div>
         <div class="form-group">
           <label for="exampleInputFile">File input</label>
@@ -57,6 +57,10 @@
 // @ is an alias to /src
 //we use an eventbus to do pubsub to pull in the clicked gif url
 import { EventBus } from '../event-bus.js';
+  EventBus.$on('i-got-clicked', gifUrl => {
+    document.getElementById("showMessageButton").click();
+
+  });
 
 
 
@@ -74,6 +78,7 @@ export default {
     messages: [],
     clickedGifUrl: '',
     showMessageForm: false,
+
     message: {
       username: 'Anonymous',
       subject: '',
@@ -97,6 +102,7 @@ export default {
   },
 
   methods: {
+
     uploadImage(e){
       const image = e.target.files[0];
       const reader = new FileReader();
@@ -116,14 +122,22 @@ export default {
         }
       }).then(response => response.json()).then(result => {
         this.messages.push(result);
+        console.log(JSON.stringify(this.message));
+
+        // document.getElementById("imageURL").value = '';
+
       });
     },
     getGifUrl(){
       EventBus.$on('i-got-clicked', gifUrl => {
-        document.getElementById("imageURL").placeholder = gifUrl;
+        this.showMessageForm = true;
+        console.log("gifsssss",this.showMessageForm);
+        this.message.imageURL = gifUrl;
+        var el = document.getElementById("imageURL");
+        el.value = gifUrl
+        console.log(document.getElementById("imageURL"));
         this.clickedGifUrl = gifUrl;
         console.log(`Oh, that's nice. It's gotten ${gifUrl} clicked! :)`)
-        console.log(`in the data ${this.clickedGifUrl} clicked! :)`)
       });
     }
   },

@@ -15,7 +15,8 @@
       </div>
     </nav>
     <div v-if="showGiphySearch" id="slider" class="slider" @mousemove="mouseMoving" @mouseup="stopDrag">
-      <h3 class="sliderHeading m-2"> Click and slide!</h3>
+      <h3 class="sliderHeading m-1"> Click and slide!</h3>
+      <small id="gifHelp" class="form-text text-muted">Double click to Choose</small>
       <div class="slider-cards" :style="`transform: translate3d(${cardsX}px,0,0)`">
         <div @mousedown="startDrag"
         @mouseup="stopDrag"
@@ -133,14 +134,13 @@ export default {
 }
 
 .slider-cards {
-  /* position: relative; */
-  /* overflow: hidden; */
+
   width: 500%;
   max-height: 160px;
   margin: 20px 50px;
   z-index: 1;
   display:inline-flex;
-  /* align-content: center; */
+  align-items: center;
 }
 
 .slider-card {
@@ -160,6 +160,7 @@ export default {
   width: 260px;
   max-height: 150px;
   border-radius: 15px;
+  vertical-align: middle;
 }
 
 h3.sliderHeading {
@@ -170,6 +171,10 @@ h3.sliderHeading {
 button.btn.btn-info.slider.mt-3.mb-3 {
   text-align: center;
   max-height: 20px;
+}
+
+#gifHelp {
+  text-align: center;
 }
 
 
