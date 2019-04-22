@@ -4,7 +4,7 @@
 
 <template>
   <div>
-    <button  @click="showMessageForm = !showMessageForm" type="button" class="btn btn-info mt-3 mb-3">Message Box Toggle</button>
+    <button  @click=" getGifUrl(), showMessageForm = !showMessageForm" type="button" class="btn btn-info mt-3 mb-3">Message Box Toggle</button>
     <form v-if="showMessageForm" @submit.prevent="addMessage" class=" mb-3">
       <fieldset>
         <div class="form-group row">
@@ -26,7 +26,7 @@
         </div>
         <div class="form-group">
           <label for="imageURL">Image/GIF URL</label>
-          <input v-model="message.imageURL" type="url" class="form-control" id="imageURL" placeholder="Enter Image/GIF URL">
+          <input v-model="message.imageURL" type="url" class="form-control" id="imageURL" :placeholder="clickedGifUrl" >
         </div>
         <div class="form-group">
           <label for="exampleInputFile">File input</label>
@@ -55,6 +55,11 @@
 
 <script>
 // @ is an alias to /src
+//we use an eventbus to do pubsub to pull in the clicked gif url
+import { EventBus } from '../event-bus.js';
+
+
+
 
 //this is the address for the API containing all the messages
 const  API_URL = 'http://localhost:1234/messages';
@@ -67,6 +72,7 @@ export default {
   data: () => ({
 
     messages: [],
+    clickedGifUrl: '',
     showMessageForm: false,
     message: {
       username: 'Anonymous',
@@ -83,6 +89,7 @@ export default {
     }
   },
   mounted() {
+    //fetches the messages from the db
     fetch(API_URL).then(response => response.json()).then(result => {
       this.messages = result;
       console.log(this.messages);
@@ -100,13 +107,7 @@ export default {
       };
     },
     addMessage() {
-      console.log("form content in method",this.message);
-      console.log("file content in method", JSON.stringify(this.message.imageFile));
-      console.log(this.message);
-
-
       //we make a post request to url and body is the form content and contenttype is json so it gets parsed
-
       fetch(API_URL, {
         method: 'POST',
         body: JSON.stringify(this.message),
@@ -116,8 +117,17 @@ export default {
       }).then(response => response.json()).then(result => {
         this.messages.push(result);
       });
+    },
+    getGifUrl(){
+      EventBus.$on('i-got-clicked', gifUrl => {
+        document.getElementById("imageURL").placeholder = gifUrl;
+        this.clickedGifUrl = gifUrl;
+        console.log(`Oh, that's nice. It's gotten ${gifUrl} clicked! :)`)
+        console.log(`in the data ${this.clickedGifUrl} clicked! :)`)
+      });
     }
-  }
+  },
+
 };
 </script>
 

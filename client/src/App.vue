@@ -1,3 +1,4 @@
+
 <template>
   <div id="app">
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -9,22 +10,23 @@
         <form class="form-inline my-2 my-lg-0">
           <h5 for="text" class="mr-2" >Search Giphy!</h5>
           <input v-model="searchTerm" class="form-control mr-sm-2" type="text" placeholder="Search">
-          <button class="btn btn-secondary my-2 my-sm-0" type="submit" @click=getGifs()>Search</button>
+          <button class="btn btn-secondary my-2 my-sm-0" type="submit" @click="getGifs(), showGiphySearch = true">Search</button>
         </form>
       </div>
     </nav>
-    <div id="slider" class="slider" @mousemove="mouseMoving" @mouseup="stopDrag">
+    <div v-if="showGiphySearch" id="slider" class="slider" @mousemove="mouseMoving" @mouseup="stopDrag">
       <h3 class="sliderHeading m-2"> Click and slide!</h3>
       <div class="slider-cards" :style="`transform: translate3d(${cardsX}px,0,0)`">
         <div @mousedown="startDrag"
         @mouseup="stopDrag"
         v-for="(gif, index) in gifs"
         :key="index"
-        class="slider-card">
+        class="slider-card"
+        v-on:click="addGifToMessageForm(index)">
         <img :src="gif" :key="gif.id" draggable="false">
       </div>
     </div>
-    <button  @click="showMessageForm = !showMessageForm" type="button" class="btn btn-info mt-3 mb-3">Message Box Toggle</button>
+    <button type="button" @click="showGiphySearch = false" class="btn btn-info slider mt-3 mb-3">^^^</button>
   </div>
 
   <router-view class="container"/>
@@ -33,12 +35,16 @@
 
 
 <script>
+//event  bus for sending the clicked gif url to home view
+import { EventBus } from './event-bus.js';
+
 export default {
   data() {
     return {
       searchTerm: '',
       gifs: [],
-      showMessageForm: false,
+      showGiphySearch: false,
+      clickedGifUrl: '',
 
 
       selectedIndex: 0,
@@ -66,11 +72,9 @@ export default {
 
       const cardWidth = 290
       const nearestSlide = -Math.round(this.cardsX / cardWidth)
-      this.selectedIndex = Math.min(Math.max(0, nearestSlide), this.slides.length -1)
-      TweenLite.to(this, 0.3, {cardsX: -this.selectedIndex * cardWidth})
+      this.selectedIndex = Math.min(Math.max(0, nearestSlide), this.gifs.length -1)
     },
     mouseMoving (e) {
-      console.log("moving");
       if(this.dragging) {
         const dragAmount = e.pageX - this.initialMouseX
         const targetX = this.initialCardsX + dragAmount
@@ -79,9 +83,6 @@ export default {
     },
     getGifs() {
       console.log(this.searchTerm);
-      console.log(this.gifs)
-      console.log("dragging1", this.dragging)
-      console.log("gifsx", this.gifsX)
       let apiKey = "dc6zaTOxFJmzC";
       let searchEndPoint = "https://api.giphy.com/v1/gifs/search?";
       let limit = 24;
@@ -103,12 +104,19 @@ export default {
       });
     },
     buildGifs(json) {
+      this.gifs = [];
       this.gifs = json.data
       .map(gif => gif.id)
       .map(gifId => {
         return `https://media.giphy.com/media/${gifId}/giphy.gif`;
       });
     },
+    addGifToMessageForm(index) {
+      const gifUrl = this.gifs[index];
+      this.clickedGifUrl = gifUrl;
+      EventBus.$emit('i-got-clicked', this.clickedGifUrl);
+      console.log("clickedgifurl", gifUrl);
+    }
   },
 };
 </script>
@@ -125,19 +133,19 @@ export default {
 }
 
 .slider-cards {
-  position: relative;
-  overflow: hidden;
-  width: 150%;
-  max-height: 100%;
+  /* position: relative; */
+  /* overflow: hidden; */
+  width: 500%;
+  max-height: 160px;
   margin: 20px 50px;
   z-index: 1;
-  display:inline-block;
+  display:inline-flex;
   /* align-content: center; */
 }
 
 .slider-card {
   display:inline;
-  background-color: grey;
+  background-color: #1F1140;
   width: 260px;
   height: 150px;
   margin-right: 30px;
@@ -146,10 +154,12 @@ export default {
   align-content: center;
 
 
+
 }
 .slider-card img {
   width: 260px;
   max-height: 150px;
+  border-radius: 15px;
 }
 
 h3.sliderHeading {
@@ -157,8 +167,9 @@ h3.sliderHeading {
   border: 10px;
 }
 
-btn {
+button.btn.btn-info.slider.mt-3.mb-3 {
   text-align: center;
+  max-height: 20px;
 }
 
 

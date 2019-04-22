@@ -35,12 +35,18 @@
     * - [x]created_at
    * - [x]insert message into db
    * - [x]respond with inserted message
-* - [ ]Create new message form on client
-  * - [ ]Submit form - fetch POST to server
-  * - [ ]Show any errors
-  * - [ ]Show new message on page
-* - [ ]When page loads show all messages on page
-   * - [ ]Server route to GET all messages
+* - [x]Create new message form on client
+  * - [x]Submit form - fetch POST to server
+  * - [x]Show any errors
+  * - [x]Show new message on page
+* - [x]When page loads show all messages on page
+   * - [x]Server route to GET all messages
+* - [x]Add Giphy api route and connect to search bar
+   * - [x]Display the returned gifs
+   * - [x]Add a slider/carousel
+   * - [x]Add click event to the gifs 
+   * - [x]Use PubSub/EventBus to send the url of clicked gif to the form
+   * - [x]Add button to hide the displayed gifs
 * - [ ]User can reply to a message
   * - [ ]Reply appears under original message
 * - [ ]Group messages into categories
