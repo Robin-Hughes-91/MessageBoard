@@ -70,7 +70,7 @@ import { EventBus } from '../event-bus.js';
 
 
 //this is the address for the API containing all the messages
-const  API_URL = 'https://full-stack-gif-message-board.herokuapp.com/';
+const  API_URL = 'https://full-stack-gif-message-board.herokuapp.com/messages';
 
 
 //mounted method runs when homepage gets run
