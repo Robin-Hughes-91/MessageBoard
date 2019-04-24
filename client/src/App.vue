@@ -2,7 +2,7 @@
 <template>
   <div id="app">
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-      <a class="navbar-brand" href="#">Bad Day?</a>
+      <a class="navbar-brand" href="#">Image Message Board</a>
 
       <div class="collapse navbar-collapse" id="navbarColor01">
         <ul class="navbar-nav mr-auto">
@@ -46,8 +46,6 @@ export default {
       gifs: [],
       showGiphySearch: false,
       clickedGifUrl: '',
-
-
       selectedIndex: 0,
       dragging: false,
       initialMouseX: 0,
@@ -63,7 +61,6 @@ export default {
   methods: {
     startDrag (e) {
       e.preventDefault()
-      console.log(this.dragging)
       this.dragging = true
       this.initialMouseX = e.pageX
       this.initialCardsX = this.cardsX
@@ -97,7 +94,6 @@ export default {
         return response.json();
       })
       .then(json => {
-        console.log(json);
         this.buildGifs(json);
       })
       .catch(err => {

@@ -6,6 +6,10 @@
   <div>
     <button  @click=" getGifUrl(), showMessageForm = !showMessageForm" type="button" class="btn btn-info mt-3 mb-3" id="showMessageButton">Message Box Toggle</button>
     <form v-if="showMessageForm" @submit.prevent="addMessage" class=" mb-3">
+      <div v-if = "error" class="alert alert-dismissible alert-warning">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <h4>Error!</h4> <a>{{error}}</a>
+      </div>
       <fieldset>
         <div class="form-group row">
           <div class="col-sm-10">
@@ -78,6 +82,7 @@ export default {
     messages: [],
     clickedGifUrl: '',
     showMessageForm: false,
+    error: '',
 
     message: {
       username: 'Anonymous',
@@ -121,27 +126,32 @@ export default {
           'content-type': 'application/json'
         }
       }).then(response => response.json()).then(result => {
-        this.messages.push(result);
-        console.log(JSON.stringify(this.message));
+        if (result.details) {
+          //there was an error
+          const error = result.details.map(detail => detail.message).join(' ');
+          console.log(error);
+          this.error = error;
+        }else{
+          this.error = '';
+          this.messages.push(result);
+          this.showMessageForm = false;
 
-        // document.getElementById("imageURL").value = '';
+        }
+        console.log(JSON.stringify(this.message));
 
       });
     },
     getGifUrl(){
       EventBus.$on('i-got-clicked', gifUrl => {
         this.showMessageForm = true;
-        console.log("gifsssss",this.showMessageForm);
         this.message.imageURL = gifUrl;
         var el = document.getElementById("imageURL");
         el.value = gifUrl
-        console.log(document.getElementById("imageURL"));
         this.clickedGifUrl = gifUrl;
         console.log(`Oh, that's nice. It's gotten ${gifUrl} clicked! :)`)
       });
     }
   },
-
 };
 </script>
 

@@ -7,5 +7,7 @@ const connectionString = 'localhost/messageboard'
 //db holds the connection to the database
 const db = monk(connectionString);
 
+
+
 //export db from the connection file so that we can use it in MessageModel.js
 module.exports = db;
