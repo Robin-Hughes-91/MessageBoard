@@ -2,7 +2,7 @@ const monk = require('monk');
 
 //this is the connection to the database, localhost points to the mongodb
 //running on this machine and messageboard points to the database we connect to
-const connectionString = 'localhost/messageboard'
+const connectionString = process.env.MONGODB_URI || 'localhost/messageboard'
 
 //db holds the connection to the database
 const db = monk(connectionString);
