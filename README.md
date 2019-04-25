@@ -44,10 +44,10 @@
 * - [x]Add Giphy api route and connect to search bar
    * - [x]Display the returned gifs
    * - [x]Add a slider/carousel
-   * - [x]Add click event to the gifs 
+   * - [x]Add click event to the gifs
    * - [x]Use PubSub/EventBus to send the url of clicked gif to the form
    * - [x]Add button to hide the displayed gifs
 * - [ ]User can reply to a message
   * - [ ]Reply appears under original message
 * - [ ]Group messages into categories
- * - [ ]Deploy!
+ * - [x]Deploy!

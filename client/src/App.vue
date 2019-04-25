@@ -81,7 +81,7 @@ export default {
     },
     getGifs() {
       console.log(this.searchTerm);
-      let apiKey = "dc6zaTOxFJmzC";
+      let apiKey = "TP8oIIMiwSVvaeGGJQHNJ53a5IwYekJQ";
       let searchEndPoint = "https://api.giphy.com/v1/gifs/search?";
       let limit = 24;
 
