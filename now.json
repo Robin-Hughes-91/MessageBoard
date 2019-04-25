@@ -1,3 +1,10 @@
 {
-  "name": "full-stack-gif-message-board"
+  "name": "full-stack-gif-message-board",
+  "alias": "full-stack-gif-message-board",
+
+  "alias": [
+    "full-stack-gif-message-board"
+  ]
+
+  
 }
