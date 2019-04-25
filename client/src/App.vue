@@ -7,10 +7,10 @@
       <div class="collapse navbar-collapse" id="navbarColor01">
         <ul class="navbar-nav mr-auto">
         </ul>
-        <form class="form-inline my-2 my-lg-0">
+        <form @submit.prevent="getGifs(), showGiphySearch = true" class="form-inline my-2 my-lg-0">
           <h5 for="text" class="mr-2" >Search Giphy!</h5>
           <input v-model="searchTerm" class="form-control mr-sm-2" type="text" placeholder="Search">
-          <button class="btn btn-secondary my-2 my-sm-0" type="submit" @click="getGifs(), showGiphySearch = true">Search</button>
+          <button class="btn btn-secondary my-2 my-sm-0" type="button" @click="getGifs(), showGiphySearch = true">Search</button>
         </form>
       </div>
     </nav>
