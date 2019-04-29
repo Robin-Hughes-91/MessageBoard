@@ -1,4 +1,6 @@
-# Full Stack Message Board
+# Full Stack Message Board.
+
+In terminal in route run 'mongog' and then 'mongo'. In client terminal run 'npm run serve'. In server terminal run 'npm run dev' 
 
 
 * - [x] Create Server Folder
